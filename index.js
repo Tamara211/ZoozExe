@@ -7,6 +7,7 @@ const app = express();
 const SUPPORTED_QUERY = ['country', 'name', 'email', 'age'];
 const BAD_QUERY_MSG = `Only one query param is supported, and it must be one of the following: ${SUPPORTED_QUERY.join(', ')}`;
 app.use(bodyParser.json());
+usersModel.init();
 
 app.get('/users/:id', async (req, res, next) => {
     let id = req.params.id;
