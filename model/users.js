@@ -20,13 +20,10 @@ module.exports = {
 
     getUsersByCountry: async function(country) {
         console.log(`getUsersByCountry called with country: ${country}`);
-        console.log(db.getUserDb()[5]);
-       // let users = await _.filter(db.getUserDb(), 'Country', country);
-       var users = await _.pickBy(db.getUserDb(), function(value, key) {
-        return value == country;
-      });
-        console.log(users);
-        return users;
+        let users = _.filter(db.getUserDb(), user => {
+            return user.Country === country
+        });
+         return users;
     },
 
     getUsersByName: async function(name) {

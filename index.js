@@ -83,7 +83,6 @@ app.use((req, res) => {
   db.loadUserDB().then(() => {
     server = app.listen(PORT, function() {
         console.log(`Test Server listening.. Access it using address: http://localhost:${PORT}`);
-     //   console.log(db.userDB[0]);
       });
 }).catch(e => {
   console.log('An error happened while trying to load DB',e)
