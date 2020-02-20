@@ -1,22 +1,15 @@
-const fs = require('fs');
-const csv=require('csvtojson');
+//const db = require('./db');
+let _ = require('lodash')
+var json = require('./db').userDB;
 
-const json = [];
 
 module.exports = {
-    init : function(){
-        csv()
-        .fromFile("data.csv")
-        .then((jsonObj)=>{
-            json.push(jsonObj);
-    
-        })
-    },
 
     getUserById: async function(id){
         console.log(`getUserById called with id: ${id}`);
-        var result = json.filter(x => x.Id == id);
-        console.log(result);
+        let userObject = await _.find(json, 'Id', id);
+        console.log(json[0]);
+        return userObject;
     },
 
     getUsersByAge: async function(age) {
