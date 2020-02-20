@@ -1,14 +1,12 @@
-//const db = require('./db');
-let _ = require('lodash')
-var json = require('./db').userDB;
+let db = require('./db');
+let _ = require('lodash');
 
 
 module.exports = {
 
     getUserById: async function(id){
         console.log(`getUserById called with id: ${id}`);
-        let userObject = await _.find(json, 'Id', id);
-        console.log(json[0]);
+        let userObject = await _.find(db.getUserDb(), 'Id', id);
         return userObject;
     },
 
@@ -22,10 +20,13 @@ module.exports = {
 
     getUsersByCountry: async function(country) {
         console.log(`getUsersByCountry called with country: ${country}`);
-
-        for(let i=0; i<json.length;i++){
-            console.log(json[i]);
-        }
+        console.log(db.getUserDb()[5]);
+       // let users = await _.filter(db.getUserDb(), 'Country', country);
+       var users = await _.pickBy(db.getUserDb(), function(value, key) {
+        return value == country;
+      });
+        console.log(users);
+        return users;
     },
 
     getUsersByName: async function(name) {
