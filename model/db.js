@@ -10,9 +10,15 @@ const loadUserDB = async() => {
    return userDB;
  }
 
+ let deleteUser = (id) => {
+    userDB.filter((el) => {
+        return el.Id !== id;
+      });
+ }
 
 module.exports = {
   loadUserDB,
   userDB,
-  getUserDb
+  getUserDb,
+  deleteUser
 }

@@ -47,7 +47,7 @@ module.exports = {
 
     deleteUser: async function(id) {
         console.log(`deleteUser called with id: ${id}`);
-        // Add implementation here
+        db.deleteUser(id);
         
         return;
     }
