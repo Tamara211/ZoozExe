@@ -7,15 +7,27 @@ module.exports = {
 
     getUserById: async function(id){
         console.log(`getUserById called with id: ${id}`);
-        let userObject = await _.find(db.getUserDb(), 'Id', id);
-        return userObject;
+
+        let userObject = await _.find(db.getUserDb(), {'Id': id});
+
+        if(userObject){
+            return {
+                statusCode: 200,
+                body: userObject
+            }
+        }else {
+            return {
+                statusCode: 404,
+                body: {'message':'User not found'}
+            }
+        }
     },
 
     getUsersByAge: async function(age) {
         console.log(`getUsersByAge called with age: ${age}`);
         
         let users = _.filter(db.getUserDb(), user => {
-            //Date constructor expect date to be in format MMDDYYYY, moment library is used to convert the format
+            //Date constructor expects date to be in format MMDDYYYY, moment library is used to convert the format
             var dateMomentObject = moment(user.DOB, "DD/MM/YYYY");
             var birthDate = dateMomentObject.toDate();
             var today = new Date();
@@ -26,7 +38,17 @@ module.exports = {
             }
             return userAge == age;
         });
-         return users;
+        if(users.length > 0){
+            return {
+                statusCode: 200,
+                body: users
+            }
+        }else {
+            return {
+                statusCode: 404,
+                body: {'message':'User not found'}
+            }
+        }
     },
 
     getUsersByCountry: async function(country) {
@@ -34,15 +56,48 @@ module.exports = {
         let users = _.filter(db.getUserDb(), user => {
             return user.Country === country;
         });
-         return users;
+        if(users.length > 0){
+            return {
+                statusCode: 200,
+                body: users
+            }
+        }else {
+            return {
+                statusCode: 404,
+                body: {'message':'User not found'}
+            }
+        }
     },
 
     getUsersByName: async function(name) {
         console.log(`searchUsersByName called with name: ${name}`);
-        
-        // Add implementation here
-        
-        return [];
+        const reg = new RegExp('^' + name, 'i');
+
+        let users = _.filter(db.getUserDb(), user => {
+            let namePatternArray = name.split(/(\s+)/);
+            //Check if it's a full name, then full match should be checked
+            if(namePatternArray.length > 1){
+                return name == user.Name
+            }
+            else if (namePatternArray[0].length > 2){
+                let nameArray = user.Name.split(/(\s+)/);
+                return (reg.test(nameArray[0]) || reg.test(nameArray[2]));
+            }
+
+        });
+
+        if(users.length > 0){
+            return {
+                statusCode: 200,
+                body: users
+            }
+        }else {
+            return {
+                statusCode: 404,
+                body: {'message':'User not found'}
+            }
+        }
+
     },
 
     deleteUser: async function(id) {

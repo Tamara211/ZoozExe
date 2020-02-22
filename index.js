@@ -8,12 +8,11 @@ const SUPPORTED_QUERY = ['country', 'name', 'email', 'age'];
 const BAD_QUERY_MSG = `Only one query param is supported, and it must be one of the following: ${SUPPORTED_QUERY.join(', ')}`;
 app.use(bodyParser.json());
 
-
 app.get('/users/:id', async (req, res, next) => {
     let id = req.params.id;
     try {
-        let user = await usersModel.getUserById(id);
-        return res.json(user);
+        let userResponse = await usersModel.getUserById(id);
+        return res.status(userResponse.statusCode).json(userResponse.body);
     } catch (err){
         console.error(err, 'Error during get user');
         return res.status(500).json({
@@ -58,7 +57,7 @@ app.get('/users', async (req, res, next) => {
         });
     }
 
-    res.json(result);
+    return res.status(result.statusCode).json(result.body);
 });
 
 app.delete('/users/:id', async (req, res, next) => {

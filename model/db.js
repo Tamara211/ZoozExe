@@ -11,7 +11,7 @@ const loadUserDB = async() => {
  }
 
  let deleteUser = (id) => {
-    userDB.filter((el) => {
+    userDB = userDB.filter((el) => {
         return el.Id !== id;
       });
  }
