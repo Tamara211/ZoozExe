@@ -57,7 +57,7 @@ app.get('/users', async (req, res, next) => {
         });
     }
 
-    return res.status(result.statusCode).json(result.body);
+    res.json(result);
 });
 
 app.delete('/users/:id', async (req, res, next) => {

@@ -1,4 +1,4 @@
-const csvFilePath='data.csv'
+const csvFilePath=`${__dirname}/../data.csv`;
 const csv=require('csvtojson')
 let userDB = [];
 
