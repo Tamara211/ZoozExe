@@ -10,7 +10,7 @@ module.exports = {
 
         let userObject = await _.find(db.getUserDb(), {'Id': id});
 
-        if(userObject){
+        if (userObject) {
             return {
                 statusCode: 200,
                 body: userObject
@@ -57,11 +57,11 @@ module.exports = {
             let namePatternArray = name.split(' ');
             //Check if it's a full name, then full match should be checked
             if(namePatternArray.length > 1){
-                return name == user.Name
+                return name == user.Name;
             }
             else if (namePatternArray[0].length > 2){
                 let nameArray = user.Name.split(' ');
-                return (reg.test(nameArray[0]) || reg.test(nameArray[1]));
+                return reg.test(nameArray[0]) || reg.test(nameArray[1]);
             }
 
         });
